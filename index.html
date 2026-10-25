@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="robots" content="noindex,nofollow">
+<title>동준 ♥ 혜인</title>
+<style>
+:root{--blue:#5aa9ff;--pink:#ff7eb3;--ink:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;height:100dvh;background:#000;overflow:hidden;font-family:"Apple SD Gothic Neo","Pretendard",sans-serif;color:var(--ink);cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease}
+.slide.on{opacity:1}
+.slide img.bg{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;filter:blur(28px) brightness(.7)}
+.slide img.fg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform:scale(1.02);transition:transform 8s ease-out}
+.slide.on img.fg{transform:scale(1)}
+.shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45) 0,rgba(0,0,0,0) 18%,rgba(0,0,0,0) 55%,rgba(0,0,0,.78) 100%)}
+/* 호감도 */
+.hud{position:fixed;top:2.2vh;left:3vw;right:3vw;display:flex;justify-content:space-between;z-index:10;pointer-events:none}
+.meter{width:30vw;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);border-radius:999px;padding:.9vh 1.2vw;display:flex;align-items:center;gap:.8vw;border:1.5px solid rgba(255,255,255,.35)}
+.meter .who{font-weight:800;font-size:2.1vh;white-space:nowrap}
+.bar{flex:1;height:1.6vh;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:999px;transition:width 1.1s cubic-bezier(.2,.9,.2,1)}
+.m-d .fill{background:linear-gradient(90deg,#9fd0ff,var(--blue))}
+.m-h .fill{background:linear-gradient(90deg,#ffc2dc,var(--pink))}
+.num{font-weight:900;font-size:2.6vh;min-width:4.2em;text-align:right;font-variant-numeric:tabular-nums}
+.m-d .num{color:#bfe0ff}.m-h .num{color:#ffd0e3}
+.pop{position:absolute;top:5.2vh;font-weight:900;font-size:2.4vh;opacity:0}
+.pop.go{animation:pop 1.4s ease-out}
+@keyframes pop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
+.m-d{position:relative}.m-h{position:relative}
+.m-d .pop{left:1.2vw;color:#bfe0ff}.m-h .pop{right:1.2vw;color:#ffd0e3}
+/* 아래 글 */
+.cap{position:absolute;left:4vw;right:4vw;bottom:4vh}
+.tag{display:inline-block;font-size:1.9vh;font-weight:800;letter-spacing:.05em;background:rgba(255,255,255,.18);padding:.4vh .9vw;border-radius:6px;margin-bottom:1.2vh}
+.line{font-size:3.4vh;font-weight:800;line-height:1.35;text-shadow:0 2px 12px rgba(0,0,0,.6);margin-bottom:1.6vh}
+.minds{display:flex;gap:1.4vw}.minds.flip{flex-direction:row-reverse}
+.mind{flex:1;min-width:0;border-radius:14px;padding:1.2vh 1.2vw;font-size:2.4vh;line-height:1.4;font-weight:600;backdrop-filter:blur(8px)}
+.mind b{display:block;font-size:1.7vh;opacity:.85;margin-bottom:.3vh}
+.mind.d{background:rgba(70,140,230,.45);border:1.5px solid rgba(160,205,255,.6)}
+.mind.h{background:rgba(235,90,150,.42);border:1.5px solid rgba(255,180,210,.6)}
+.mind:empty{display:none}
+/* 표지·끝 */
+.title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(0,0,0,.35)}
+.title h1{font-size:9vh;font-weight:900;text-shadow:0 4px 24px rgba(0,0,0,.5)}
+.title p{font-size:3vh;margin-top:2vh;font-weight:700}
+.letter{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(20,10,30,.45)}
+.lcard{max-width:68vw;background:rgba(255,250,245,.92);color:#3a2a33;border-radius:22px;padding:5vh 4vw;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center}
+.lto{font-size:3.6vh;font-weight:900;margin-bottom:3vh;color:#c2457a}
+.ltext{font-size:2.9vh;line-height:1.8;font-weight:600}
+.lfrom{margin-top:3vh;font-size:2.4vh;font-weight:800;color:#6b5560}
+@media (max-aspect-ratio:4/3){.minds{flex-direction:column;gap:1vh}.minds.flip{flex-direction:column-reverse;gap:1vh}.line{font-size:3vh}}
+.page{position:fixed;right:1.2vw;bottom:1vh;font-size:1.4vh;opacity:.45;z-index:10}
+
+@media (max-height:520px), (max-width:600px){
+ .hud{top:8px;left:8px;right:8px}
+ .meter{padding:4px 8px;gap:6px}
+ .meter .who{font-size:11px}.num{font-size:13px;min-width:2.6em}.bar{height:6px}
+ .pop{display:none}
+ .cap{left:10px;right:10px;bottom:10px}
+ .tag{font-size:11px;padding:2px 6px;margin-bottom:4px}
+ .line{font-size:15px;margin-bottom:6px}
+ .mind{font-size:13px;padding:6px 8px;border-radius:10px}.mind b{font-size:10px}
+ .lcard{padding:16px 14px;max-width:92vw}.lto{font-size:17px;margin-bottom:10px}.ltext{font-size:13px;line-height:1.6}.lfrom{font-size:12px;margin-top:10px}
+ .title h1{font-size:34px}.title p{font-size:15px}
+}
+@media (max-width:600px){ .meter{width:46vw} .bar{display:none} }
+</style></head><body>
+<div class="hud" id="hud">
+  <div class="meter m-d"><span class="who">💙 동준의 호감도</span><div class="bar"><div class="fill" id="fd"></div></div><span class="num" id="nd">0</span><span class="pop" id="pd"></span></div>
+  <div class="meter m-h"><span class="num" id="nh" style="text-align:left">0</span><div class="bar" style="transform:scaleX(-1)"><div class="fill" id="fh"></div></div><span class="who">혜인의 호감도 💗</span><span class="pop" id="ph"></span></div>
+</div>
+<div id="stage"></div>
+<div class="page" id="page"></div>
+<div id="ytbox" style="position:fixed;left:-50px;top:-50px;width:1px;height:1px;overflow:hidden"></div>
+<div id="songtip" style="position:fixed;left:50%;transform:translateX(-50%);bottom:1.2vh;font-size:1.6vh;background:rgba(0,0,0,.5);padding:.5vh 1vw;border-radius:99px;opacity:0;transition:opacity .6s;z-index:20"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// ── 여기 글만 고치면 화면이 바뀝니다. d = 동준 속마음, h = 혜인 속마음, 숫자 = 호감도 ──
+const S = [
+ {title:true, img:"21", head:"동준 ♥ 혜인", sub:"우리가 만나기까지", dv:0, hv:0},
+ {img:"01c", tag:"6월, 첫 만남", line:"커밍쏜 님 크리에이터 모임. 혜인은 무대 위 연사, 동준은 참가자 상담 스태프.", d:"(상담하느라 정신없음)", h:"(강연하느라 정신없음)", dv:0, hv:0},
+ {img:"02c", tag:"그날 뒤풀이", line:"서로 말 한마디 안 하고, 각자 테이블에서 잘 놀았다.", d:"(재밌다~)", h:"(재밌다~ 근데 피곤해…)", dv:0, hv:0},
+ {img:"g3b", tag:"12월 강연 전, 펜션 워크숍", line:"술자리에서 커밍쏜 님이 혜인에게 물었다. 「동테크님 어때? 둘이 그림체가 비슷해.」", d:"", h:"동테크…? 아, AI 하시는 그분인가?", dv:0, hv:5, flip:true},
+ {img:"03b", tag:"그해 12월", line:"이번엔 동준이 AI 강연자, 혜인은 포스터 붙이고 짐 나르는 스태프.", d:"(밤새 준비했다. 잘하자.)", h:"정성 들여 준비한 게 느껴진다… 멋있다.", dv:5, hv:20},
+ {img:"04d", tag:"강연이 끝나고", line:"번호 교환, 같이 사진… 동준 앞에 줄이 생겼다.", d:"(어색) 아 네네, 감사합니다…", h:"뭐… 아무 사이 아닌데. (근데 왜 자꾸 눈이 가지)", dv:8, hv:25},
+ {img:"04e", tag:"줄이 겨우 끝나고", line:"혜인이 다가갔다. 「저희 커뮤니티에서 강연해 주실 수 있어요?」", d:"착한 분이구나. 그래요, 할게요!", h:"「그래요」래! (일 때문이에요, 일 때문.) …근데 난 아까 그 사람들 중 하나겠지.", dv:12, hv:28},
+ {img:"04f", tag:"그날 뒤풀이", line:"같은 테이블에서 겨우 말을 텄는데, 혜인이 먼저 일어났다.", d:"벌써 가세요?", h:"오늘 더 얘기하고 싶은데… 뉴스레터가 남았다. 이만 일어나 봐야지.", dv:15, hv:30},
+ {img:"a-부러움", tag:"같은 날 밤", line:"혜인이 있는 퍼매스 사람들. 웃고 떠들고, 에너지가 넘친다.", d:"…저기 너무 부럽다. 나도 들어가고 싶다.", h:"", dv:18, hv:30},
+ {img:"pay", tag:"며칠 뒤", line:"동준, 퍼매스 다음 기수 결제 완료.", d:"결제했다. 나도 저기 낀다!", h:"", dv:20, hv:30},
+ {img:"roster", tag:"퍼매스 참가자 명단", line:"명단을 넘기던 혜인의 손이 멈췄다.", d:"", h:"오, 동테크님 들어왔네?", dv:20, hv:35, flip:true},
+ {img:"ask", tag:"조 편성 전", line:"혜인이 커밍쏜 님께 직접 부탁했다.", d:"", h:"동테크님 저희 조로 넣어 주세요. 꼭이요! (더 친해지고 싶어서)", dv:20, hv:38, flip:true},
+ {img:"05b", tag:"퍼매스 첫 모임", line:"조 디렉터가… 혜인?!", d:"어? 디렉터님이 혜인 님이네. 신기하다.", h:"(계획대로) ✌️", dv:28, hv:42},
+ {img:"i2", tag:"온라인 작업방", line:"혜인은 기다리고, 야행성 동준은 한참 늦게 들어온다.", d:"(새벽 1시) 안녕하세요~", h:"왜 이렇게 늦게 들어와…", dv:32, hv:48},
+ {img:"06c", tag:"둘만 남은 밤", line:"가끔 둘만 남아 같이 작업했다.", d:"좋은 사람이다. 근데 남자친구 있겠지…", h:"일에 순수하게 열정적인 사람. 딱 내 이상형.", dv:35, hv:50},
+ {img:"07a", tag:"혜인의 문자", line:"예든 님이 서울에 온다. 「동준 님도 같이 밥 드실래요?」", d:"좋아요! (바로 답장)", h:"수원 사는데 거절하면 어떡하지… 보냈다. 못 보겠다.", dv:40, hv:58, flip:true},
+ {img:"07c", tag:"서울역 근처 양식집", line:"동준, 혜인, 예든 님. 셋이 마주 앉았다.", d:"얘기가 너무 잘 통하네.", h:"앞에 앉으니까 더 떨리네…", dv:48, hv:62},
+ {img:"b3", tag:"2차, 막걸리", line:"전 연애 이야기, 헤어진 이유까지. 그리고 혜인의 한마디 「다음 남자친구랑은 결혼까지 생각하고 싶어요.」", d:"(막걸리 마시다 멈칫) 이 사람은 이런 연애를 하는구나.", h:"연애를 가볍게 하지 않는 사람이구나. (결혼 얘기는 진심이었어요)", dv:55, hv:68},
+ {img:"08b", tag:"청계천", line:"다들 부산 가자고만 하고, 아무도 추진을 안 한다.", d:"…진짜요? 날짜 잡아요?", h:"내가 추진하면 진짜 간다. 우리 부산 갈래요?!", dv:60, hv:72},
+ {img:"09c", tag:"어느 밤의 문자", line:"「저 내일 새벽에 혼자 등산 가요」", d:"(3초의 정적이 흘렀다…)", h:"고민 0초. 나랑 가고 싶어서 말한 거잖아? 「그럼 저 데리고 가세요」 … 나 완전 여우다.", dv:65, hv:80},
+ {img:"10", tag:"고민하는 동준", line:"「다음 남자친구랑은 결혼까지」 — 그 말이 떠올랐다.", d:"이건 마음을 받는 거다. 가볍게 말고, 제대로.", h:"(바로 같이 가자네! 좋다)", dv:70, hv:82, flip:true},
+ {img:"c-세차", tag:"데이트 당일 새벽", line:"세차하고, 제일 좋아하는 집에서 휘낭시에까지.", d:"(콧노래) 오늘은 깨끗하게.", h:"", dv:75, hv:82},
+ {img:"11c", tag:"첫 데이트, 수원 광교산", line:"가는 길부터 두근두근. 그리고 휘낭시에 선물.", d:"(새벽에 세차한 거 티 났나…)", h:"세차에 휘낭시에까지? 이 사람도 나 좋아하는구나!", dv:80, hv:88},
+ {img:"11d", tag:"정상에서", line:"혜인이 싸 온 사과·딸기·방울토마토.", d:"(사과 싫어하는데…) 마, 맛있네요! (꾹 참고 먹음)", h:"사과 좋아하나 보다~ 더 드세요!", dv:80, hv:88},
+ {img:"d-도토리묵", tag:"광교산 아래 묵집", line:"바비큐에 쌈을 한입 가득.", d:"와… 진짜 잘 먹는다 ㅋㅋ", h:"고기 진짜 맛있었어요. 등산했더니 배고팠다고요.", dv:85, hv:90},
+ {img:"e-맛집상상", tag:"자칭 맛잘알", line:"맛집을 정말 많이 알고, 하나하나 소개해 준다.", d:"나도 맛있는 거 너무 좋아하는데… 같이 다 먹으러 가고 싶다.", h:"입맛이 까다롭진 않아도 맛집은 잘 찾아요. (엄마는 안 믿겠지만)", dv:90, hv:90},
+ {img:"18", tag:"그런데…", line:"동네 아무 데나 가도, 뭘 먹어도 「맛있다」.", d:"…진짜 맛잘알 맞아? (의심 중)", h:"맛있는데?", dv:86, hv:90, flip:true},
+ {img:"12b", tag:"카페", line:"앞으로 어떻게 살고 싶은지, 진지한 이야기.", d:"이 사람, 생각이 깊다.", h:"이야기할 때마다 가치관이 비슷하다.", dv:90, hv:92},
+ {img:"13b", tag:"연락이 뜸해진 사이", line:"혜인은 카톡을 열심히, 동준은 중간에 잠들기 일쑤.", d:"(쿨쿨… 그러다 디엠) 화성행궁 예쁘대요, 가요!", h:"또 잠들었네… 뭐, 어차피 부산 갈 거니까.", dv:90, hv:92, flip:true},
+ {img:"j-왜안만나", tag:"서울 출장 강의, 장소는 문래", line:"문래는 혜인의 집 바로 옆.", d:"(헉) 끝나고 가도 돼요?", h:"문래까지 오는데, 왜 나한테 만나자고 안 해요?", dv:92, hv:94, flip:true},
+ {img:"14b", tag:"강의 끝나고, 문래로", line:"혜인이 제일 자신 있는 육회 맛집으로.", d:"여기 진짜 맛있다… (인정)", h:"거봐요, 나 맛잘알이라니까.", dv:95, hv:95},
+ {img:"15-페레로", tag:"화이트데이 즈음", line:"카페 테이블 위에 페레로 로쉐 탑.", d:"(작게) 빨리 가방에 넣어요, 빨리…", h:"수줍게 꺼내는 게 너무 귀여웠어요. (다 먹음)", dv:97, hv:98},
+ {img:"16b", tag:"1년의 도전", line:"혼자 1년 가까이 해 온 유튜브. 지금의 「헤이디」 채널.", d:"그걸 1년이나 계속했다는 게 너무 멋있다. 이 사람이랑 결혼해도 되겠다.", h:"좋게 봐 줘서 고마웠어요.", dv:99, hv:99, flip:true},
+ {img:"17b", tag:"마지막 강의 날, 한강", line:"존댓말을 쓰던 두 사람. 혜인이 「이제 말 놓자」 — 그리고.", d:"우리 만나 볼래?", h:"알겠어.", dv:100, hv:100, flip:true},
+ {img:"k-부산", tag:"부산 2박 3일", line:"결국 진짜 간 부산. 이미 사귀는 중, 예든 님 몰래.", d:"(태연한 척)", h:"연애 안 하는 척, 스릴 있었어요 ㅋㅋ", dv:100, hv:100},
+ {img:"f-계약고민", tag:"영등포 집 계약 만료", line:"혜인은 1년 연장을 생각하고 있었다.", d:"", h:"1년은 더 만나 보고 같이 사는 게 맞지 않을까…", dv:100, hv:100, flip:true},
+ {img:"19b", tag:"그때 동준이", line:"지금 놓치면 2년. 동준이 꼬셨다.", d:"결혼 전제로 같이 살아 볼래?", h:"그리는 미래가 같으니까. 좋아.", dv:100, hv:100},
+ {img:"20b", tag:"지금, 청라", line:"비슷한 일을 하며 고민도 편하게 나누는 매일.", d:"너무 행복해요.", h:"기댈 사람이 있다는 게 큰 안정감이에요. 동준이는 엄청 다정해요.", dv:120, hv:120},
+ {img:"21", tag:"2027년 10월 2일", line:"야외 결혼식장을 잡았습니다.", d:"", h:"날씨가 좋고, 응원해 주시는 분들이 즐겁게 놀다 가는 자리였으면.", dv:999, hv:999},
+ {img:"22", tag:"앞으로의 우리", line:"꿈은 첫째 딸, 둘째 아들.", d:"딸 하나, 아들 하나!", h:"일단 첫째 낳아 보고 결정할게요 ㅎㅎ", dv:999, hv:999},
+ {letter:true, img:"l-인사", from:"동준 · 혜인", to:"이런 부부가 되겠습니다", text:"서로가 서로에게 일순위인 사람.<br>무엇이든 솔직하게, 건강하게 대화하는 부부.<br>지금 둘만의 시간도 아끼며 즐겁게 살겠습니다.", dv:999, hv:999},
+ {letter:true, img:"l-인사", from:"동준", to:"혜인이 부모님께", text:"아버님, 어머님.<br><br>혜인이를 이렇게 밝고 사랑스럽게 키워 주셔서 감사합니다.<br><br>제가 아는 혜인이는 너무너무 착하지만,<br>중요한 순간에는 누구보다 현명하게 판단하는 사람입니다.<br><br>혜인이를 볼 때마다 그 모든 게 두 분께 받은 것이라는 게 느껴져서,<br>두 분이 지금까지 지켜 주신 혜인이의 웃음을<br>이제 제가 더 지켜 가려고 합니다.<br><br>감사합니다. 행복하게 잘 살겠습니다.", dv:999, hv:999},
+ {letter:true, img:"l-인사", from:"동준", to:"엄마, 아빠한테", text:"엄마, 아빠.<br><br>어릴 때 해외 다니면서 이것저것 경험시켜 준 덕분에<br>시야가 많이 트였고, 더 넓은 세상이 있다는 걸 배웠어.<br><br>「거짓말은 나쁜 거다」<br>그리고 엄마가 행동으로 보여 준 모습에서 책임감을 배웠어.<br><br>내가 받은 걸 우리 아이한테도 다시 줄 수 있는,<br>멋진 부모가 되어 볼게. 고마워.", dv:999, hv:999},
+ {letter:true, img:"l-인사", from:"혜인", to:"엄마, 아빠한테", text:"엄마, 아빠.<br><br>아빠, 정해진 틀보다 내가 하고 싶은 걸 찾아서<br>마음껏 펼치라고 늘 말해 주고 밀어 줘서 고마워.<br><br>엄마, 늘 우리 집 중심을 잡아 주고<br>든든한 내 편이 있다는 걸 알게 해 줘서<br>내가 이만큼 잘 클 수 있었어.<br><br>사랑해. 우리 잘 살게.", dv:999, hv:999},
+ {letter:true, img:"l-인사", from:"혜인", to:"동준이 부모님께", text:"동준이의 책임감, 제가 생각지 못한 부분까지 짚어 주는 모습에서 늘 많이 배워요.<br>그게 다 어머님, 아버님께 받은 것이라 생각해요.<br>동준이를 이렇게 멋지게 키워 주셔서 정말 감사드립니다.", dv:999, hv:999},
+ {title:true, img:"22", head:"예쁘게 봐 주세요!", sub:"동준 ♥ 혜인", dv:999, hv:999},
+];
+const stage=document.getElementById('stage');
+S.forEach((s,i)=>{
+  const el=document.createElement('div'); el.className='slide';
+  el.innerHTML = `<img class="bg" src="그림/${s.img}.jpg"><img class="fg" src="그림/${s.img}.jpg"><div class="shade"></div>` + (s.letter
+    ? `<div class="letter"><div class="lcard"><div class="lto">${s.to}</div><div class="ltext">${s.text}</div><div class="lfrom">— ${s.from}</div></div></div>`
+    : s.title
+    ? `<div class="title"><h1>${s.head}</h1><p>${s.sub}</p></div>`
+    : `<div class="cap"><span class="tag">${s.tag}</span><div class="line">${s.line}</div><div class="minds${s.flip?' flip':''}"><div class="mind d">${s.d?`<b>💙 동준 속마음</b>${s.d}`:''}</div><div class="mind h">${s.h?`<b>💗 혜인 속마음</b>${s.h}`:''}</div></div></div>`);
+  stage.appendChild(el);
+});
+const slides=[...stage.children]; let cur=-1, shownD=0, shownH=0;
+const show=v=>v>=999?'∞':String(v);
+function count(el,from,to){ if(to>=999){el.textContent='∞';return}
+  const t0=performance.now(), dur=1000; const step=t=>{const k=Math.min(1,(t-t0)/dur);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step);}
+function pop(el,diff){ if(!diff||diff>500||diff<-500){return} el.textContent=(diff>0?'+':'')+diff; el.classList.remove('go'); void el.offsetWidth; el.classList.add('go'); }
+function go(n){
+  n=Math.max(0,Math.min(slides.length-1,n)); if(n===cur)return;
+  slides.forEach((s,i)=>s.classList.toggle('on',i===n)); cur=n; const s=S[n];
+  const pct=v=>v>=999?100:Math.min(100,v);
+  document.getElementById('fd').style.width=pct(s.dv)+'%'; document.getElementById('fh').style.width=pct(s.hv)+'%';
+  count(document.getElementById('nd'),Math.min(shownD,998),s.dv); count(document.getElementById('nh'),Math.min(shownH,998),s.hv);
+  pop(document.getElementById('pd'),s.dv-shownD); pop(document.getElementById('ph'),s.hv-shownH);
+  shownD=s.dv; shownH=s.hv;
+  document.getElementById('hud').style.opacity = (n===0 || s.letter) ? 0 : 1;
+  document.getElementById('page').textContent=(n+1)+' / '+slides.length;
+  if(typeof music==='function') music(n);
+}
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown','Enter'].includes(e.key)){e.preventDefault();go(cur+1)}
+  else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(cur-1)}
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+});
+let tx=null,ty=null;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{ if(tx===null) return; const x=e.changedTouches[0].clientX, dx=x-tx, dy=e.changedTouches[0].clientY-ty;
+  if(!started){started=true; music(cur);}
+  if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)) go(dx<0?cur+1:cur-1); else go(x<innerWidth*0.3?cur-1:cur+1); tx=null; e.preventDefault(); },{passive:false});
+addEventListener('click',e=>{ go(e.clientX<innerWidth*0.3?cur-1:cur+1); });
+
+// ── 배경음악 ──
+// 구간: ① 썸(첫 만남 ~ 맛잘알 의심) · ② 확신·고백(카페 ~ 청라) · ③ 감사(결혼식 ~ 끝)
+// 인터넷이 되면 유튜브 피아노 버전, 안 되면 음악 폴더의 연주곡. 첫 키를 누르면 시작. M = 끄기/켜기, + / - = 크기.
+const SECTIONS=[
+ {name:"① 썸 — 소유×정기고 「썸」 피아노", yt:"Auo7hpIy8tI", at:0, file:"음악/1-설렘.mp3"},
+ {name:"② 확신·고백 — 폴킴 「모든 날, 모든 순간」 피아노", yt:"sjiydBdJaE0", at:0, file:"음악/2-진지.mp3"},
+ {name:"③ 감사 — 성시경 「두 사람」 피아노", yt:"FsoXypqRTig", at:0, file:"음악/3-감사.mp3"},
+];
+const part2=S.findIndex(x=>x.img==="12b"), part3=S.findIndex((x,i)=>i>0&&x.img==="21"&&!x.title);
+const trackFor=n=>n>=part3?2:(n>=part2?1:0);
+let vol=0.22, muted=false, started=false, curTrack=-1, yt=null, ytOk=false, useYT=false;
+const files=SECTIONS.map(x=>{const a=new Audio(x.file);a.loop=true;a.volume=0;return a});
+window.onYouTubeIframeAPIReady=()=>{ yt=new YT.Player('ytbox',{height:'1',width:'1',playerVars:{autoplay:0,controls:0,playsinline:1},
+  events:{onReady:()=>{ytOk=true}, onError:()=>{ if(useYT){useYT=false; const t=curTrack; curTrack=-1; music(cur,true);} },
+          onStateChange:e=>{ if(e.data===0&&useYT) yt.seekTo(SECTIONS[curTrack].at||0) }}}) };
+function ramp(set,from,to,ms,done){const t0=performance.now();const st=t=>{const k=Math.min(1,(t-t0)/ms);set(from+(to-from)*k);if(k<1)requestAnimationFrame(st);else if(done)done()};requestAnimationFrame(st)}
+function music(n,force){ if(!started) return; const t=trackFor(n); if(t===curTrack&&!force) return;
+  const target=muted?0:vol;
+  if(curTrack>=0){ const old=files[curTrack]; ramp(v=>old.volume=Math.max(0,v),old.volume,0,1200,()=>old.pause()); }
+  curTrack=t;
+  useYT = ytOk && navigator.onLine;
+  if(useYT){ const sec=SECTIONS[t]; const startV=yt.getVolume?yt.getVolume():0;
+    ramp(v=>yt.setVolume(v),startV,0,800,()=>{ yt.loadVideoById({videoId:sec.yt,startSeconds:sec.at||0}); yt.setVolume(0); ramp(v=>yt.setVolume(v),0,target*100,2000); }); }
+  else { if(yt&&ytOk) yt.stopVideo(); const a=files[t]; a.currentTime=0; a.play().catch(()=>{}); ramp(v=>a.volume=Math.min(1,Math.max(0,v)),0,target,2000); }
+  const tip=document.getElementById('songtip'); tip.textContent='♪ '+SECTIONS[t].name+(useYT?'':' (연주곡)'); tip.style.opacity=1; setTimeout(()=>tip.style.opacity=0,3500);
+}
+function applyVol(){ const v=muted?0:vol; if(useYT&&yt) yt.setVolume(v*100); else if(curTrack>=0) files[curTrack].volume=v; }
+addEventListener('keydown',e=>{
+  if(!started){started=true; music(cur);}
+  if(e.key==='m'||e.key==='M'){muted=!muted; applyVol();}
+  if(e.key==='+'||e.key==='='){vol=Math.min(0.7,vol+0.05); applyVol();}
+  if(e.key==='-'){vol=Math.max(0,vol-0.05); applyVol();}
+});
+addEventListener('click',()=>{ if(!started){started=true; music(cur);} });
+go(0);
+</script>
+<div id="rot" style="position:fixed;top:44px;left:0;right:0;text-align:center;font-size:13px;color:#fff;opacity:.85;z-index:30;pointer-events:none">📱 가로로 돌려서 보세요 · 화면을 누르거나 밀어서 넘겨요 · 첫 터치에 음악이 켜져요</div>
+<style>@media (orientation:landscape){#rot{display:none}}</style>
+</body></html>
